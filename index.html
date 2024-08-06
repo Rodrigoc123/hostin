@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventosMagicos - Entradas para Eventos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff9900;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #ff9900;
+        }
+        .hero {
+            background-image: url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 20px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        .cta-button {
+            background-color: #ff9900;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #e68a00;
+            transform: scale(1.05);
+        }
+        .events-section {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .event-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        .event-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        .event-details {
+            padding: 20px;
+        }
+        .event-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .event-date, .event-location {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .event-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ff9900;
+            margin-top: 15px;
+        }
+        .login-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .modal-content input[type="text"], .modal-content input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .modal-content button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff9900;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .modal-content button:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">EventosMagicos</div>
+            <div class="nav-links">
+                <a href="#">Inicio</a>
+                <a href="#">Eventos</a>
+                <a href="#">Contacto</a>
+                <a href="#" id="loginBtn">Iniciar Sesión</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Descubre Eventos Increíbles</h1>
+            <p>Compra tus entradas para los mejores conciertos, festivales y espectáculos.</p>
+            <button class="cta-button">Explorar Eventos</button>
+        </div>
+    </div>
+
+    <section class="events-section">
+        <h2>Eventos Destacados</h2>
+        <div class="events-grid">
+            <div class="event-card">
+                <div class="event-image" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="event-details">
+                    <div class="event-title">Festival de Rock</div>
+                    <div class="event-date">15 de Agosto, 2024</div>
+                    <div class="event-location">Estadio Nacional</div>
+                    <div class="event-price">Desde $50</div>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="event-details">
+                    <div class="event-title">Noche de Comedia</div>
+                    <div class="event-date">22 de Septiembre, 2024</div>
+                    <div class="event-location">Teatro Municipal</div>
+                    <div class="event-price">Desde $30</div>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="event-details">
+                    <div class="event-title">Exposición de Arte</div>
+                    <div class="event-date">5 de Octubre, 2024</div>
+                    <div class="event-location">Galería Central</div>
+                    <div class="event-price">Desde $15</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="loginModal" class="login-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="Usuario" required>
+                <input type="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const loginBtn = document.getElementById("loginBtn");
+        const loginModal = document.getElementById("loginModal");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        const loginForm = document.getElementById("loginForm");
+
+        loginBtn.onclick = function() {
+            loginModal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            loginModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+        }
+
+        loginForm.onsubmit = function(e) {
+            e.preventDefault();
+            // Aquí iría la lógica de autenticación
+            alert("Sesión iniciada con éxito");
+            loginModal.style.display = "none";
+            loginBtn.textContent = "Cerrar Sesión";
+            loginBtn.onclick = function() {
+                loginBtn.textContent = "Iniciar Sesión";
+                alert("Sesión cerrada");
+                loginBtn.onclick = function() {
+                    loginModal.style.display = "block";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
